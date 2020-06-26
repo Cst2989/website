@@ -206,6 +206,12 @@ aliases:
     - huynguyennovem
     - ngtuna
     - truongnh1992
+  sig-docs-ro-owners: # Admins for Romanian content
+    - Cst2989
+    - andreipetcu
+  sig-docs-ro-reviews: # PR reviews for Romanian content
+    - Cst2989
+    - andreipetcu
   sig-docs-ru-owners: # Admins for Russian content
     - msheldyakov
     - aisonaku
