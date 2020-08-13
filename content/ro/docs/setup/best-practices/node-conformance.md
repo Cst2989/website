@@ -1,59 +1,59 @@
 ---
 reviewers:
 - andreipetcu
-title: Validate node setup
+title: Validarea configurararii nodului
 weight: 30
 ---
 
 
-## Node Conformance Test
+## Testul de conformare a nodului
 
-*Node conformance test* is a containerized test framework that provides a system
-verification and functionality test for a node. The test validates whether the
-node meets the minimum requirements for Kubernetes; a node that passes the test
-is qualified to join a Kubernetes cluster.
+*Testul conformității nodului* este un cadru de testare containerizat care furnizează un sistem de
+verificare și de funcționalitate pentru un nod. Testul validează dacă
+nodul îndeplinește cerințele minime pentru Kubernetes; un nod care trece testul
+este calificat să se alăture unui cluster Kubernetes.
 
-## Limitations
+## Limitări
 
-In Kubernetes version 1.5, node conformance test has the following limitations:
+În versiunea 1.5 a lui Kubernetes, test de conformitate a nodului are următoarele limitări:
 
-* Node conformance test only supports Docker as the container runtime.
+* Testul conformității nodului acceptă numai Docker ca timp de rulare a containerului.
 
-## Node Prerequisite
+## Condiție prealabilă a nodului
 
-To run node conformance test, a node must satisfy the same prerequisites as a
-standard Kubernetes node. At a minimum, the node should have the following
-daemons installed:
+Pentru a rula testul de conformare a nodului, un nod trebuie să satisfacă aceleași condiții preliminare ca și
+nodul standard Kubernetes. Cel puțin, nodul trebuie să aibă următoarele
+daemon-uri instalate:
 
 * Container Runtime (Docker)
 * Kubelet
 
-## Running Node Conformance Test
+## Rularea testului de conformare a nodurilor
 
-To run the node conformance test, perform the following steps:
+Pentru a rula testul conformității nodului, efectuați următorii pași:
 
-1. Point your Kubelet to localhost `--api-servers="http://localhost:8080"`,
-because the test framework starts a local master to test Kubelet. There are some
-other Kubelet flags you may care:
-  * `--pod-cidr`: If you are using `kubenet`, you should specify an arbitrary CIDR
-    to Kubelet, for example `--pod-cidr=10.180.0.0/24`.
-  * `--cloud-provider`: If you are using `--cloud-provider=gce`, you should
-    remove the flag to run the test.
+1. Indicați-vă Kubelet-ul către localhost `--api-servers="http://localhost:8080"`,
+deoarece cadrul de testare pornește un master local care să testeze Kubelet. Sunt cateva
+alte flag-uri Kubelet de care vă poate interesa:
+  * `--pod-cidr`: Dacă folosiți `kubenet`, ar trebui să specificați un CIDR arbitrar
+    la Kubelet, de exemplu `--pod-cidr=10.180.0.0/24`.
+  * `--cloud-provider`: Dacă folosiți `--cloud-provider=gce`, ar trebui să
+    scoateți steagul pentru a rula testul.
 
-2. Run the node conformance test with command:
+2. Executați testul conformității nodului cu comanda:
 
 ```shell
-# $CONFIG_DIR is the pod manifest path of your Kubelet.
-# $LOG_DIR is the test output path.
+# $CONFIG_DIR este calea manifestă a podului din Kubelet.
+# $LOG_DIR este calea de output a testului.
 sudo docker run -it --rm --privileged --net=host \
   -v /:/rootfs -v $CONFIG_DIR:$CONFIG_DIR -v $LOG_DIR:/var/result \
   k8s.gcr.io/node-test:0.2
 ```
 
-## Running Node Conformance Test for Other Architectures
+## Rularea testului de conformitate a nodurilor pentru alte arhitecturi
 
-Kubernetes also provides node conformance test docker images for other
-architectures:
+Kubernetes oferă, de asemenea, imagini de docker pentru testarea conformității nodului
+pe alte arhitecturi:
 
   Arch  |       Image       |
 --------|:-----------------:|
@@ -61,39 +61,37 @@ architectures:
   arm   |    node-test-arm  |
  arm64  |  node-test-arm64  |
 
-## Running Selected Test
+## Rularea testul selectat
 
-To run specific tests, overwrite the environment variable `FOCUS` with the
-regular expression of tests you want to run.
-
-```shell
-sudo docker run -it --rm --privileged --net=host \
-  -v /:/rootfs:ro -v $CONFIG_DIR:$CONFIG_DIR -v $LOG_DIR:/var/result \
-  -e FOCUS=MirrorPod \ # Only run MirrorPod test
-  k8s.gcr.io/node-test:0.2
-```
-
-To skip specific tests, overwrite the environment variable `SKIP` with the
-regular expression of tests you want to skip.
+Pentru a rula teste specifice, suprascrieți variabila de mediu `FOCUS` cu
+expresia regulată a testelor pe care doriți să le executați.
 
 ```shell
 sudo docker run -it --rm --privileged --net=host \
   -v /:/rootfs:ro -v $CONFIG_DIR:$CONFIG_DIR -v $LOG_DIR:/var/result \
-  -e SKIP=MirrorPod \ # Run all conformance tests but skip MirrorPod test
+  -e FOCUS=MirrorPod \ # Ruleaza numai testul MirrorPod
   k8s.gcr.io/node-test:0.2
 ```
 
-Node conformance test is a containerized version of [node e2e test](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/e2e-node-tests.md).
-By default, it runs all conformance tests.
+Pentru a omite testele specifice, rescrieți variabila de mediu `SKIP` cu
+expresia regulară a testelor pe care doriți să săriți.
 
-Theoretically, you can run any node e2e test if you configure the container and
-mount required volumes properly. But **it is strongly recommended to only run conformance
-test**, because it requires much more complex configuration to run non-conformance test.
+```shell
+sudo docker run -it --rm --privileged --net=host \
+  -v /:/rootfs:ro -v $CONFIG_DIR:$CONFIG_DIR -v $LOG_DIR:/var/result \
+  -e SKIP=MirrorPod \ # Executați toate testele de conformitate, dar săriți testul MirrorPod
+  k8s.gcr.io/node-test:0.2
+```
+Testul conformității nodului este o versiune containerizată a [node e2e test](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/e2e-node-tests.md).
+În mod implicit, acesta rulează toate testele de conformitate.
+
+Teoretic, puteți rula orice test e2e dacă configurați containerul și
+montați volumele necesare în mod corespunzător. Dar **este recomandat să se execute numai teste de
+conformitate**, deoarece necesită o configurație mult mai complexă pentru a rula teste non-conformitationale.
 
 ## Caveats
 
-* The test leaves some docker images on the node, including the node conformance
-  test image and images of containers used in the functionality
-  test.
-* The test leaves dead containers on the node. These containers are created
-  during the functionality test.
+* Testul lasă câteva imagini pe nod, inclusiv imaginea testului de conformitatea a nodului
+  și imaginile containerelor utilizate în funcționalitatea testului.
+* Testul lasă containerele moarte pe nod. Aceste containere sunt create
+  în timpul testului de funcționalitate.
