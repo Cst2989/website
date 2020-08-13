@@ -1,0 +1,109 @@
+---
+title: Folosirea Minikube pentru a crea un Cluster
+weight: 10
+---
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<body>
+
+    <link href="/docs/tutorials/kubernetes-basics/public/css/styles.css" rel="stylesheet">
+
+<div class="layout" id="top">
+
+    <main class="content">
+
+        <div class="row">
+
+      <div class="col-md-8">
+          <h3>Objectives</h3>
+                <ul>
+                    <li>Învață ce este un Cluster de Kubernetes.</li>
+                    <li>Învață ce este Minikube.</li>
+                    <li>Pornește un cluster Kubernetes folosing un terminal online.</li>
+                </ul>
+            </div>
+
+            <div class="col-md-8">
+                <h3>Clustere Kubernetes</h3>
+                <p>
+                <b>Kubernetes coordoneaza un cluster cu disponibilitate ridicată de computere care sunt conectate să funcționeze ca o singură unitate.</b> Abstractizările din Kubernetes îți permit să publici aplicații containerizate într-un cluster fără să fie legate în mod specific de o mașină anume. Pentru a face uz de acest model de publicare, aplicațiile au nevoie să fie împachetate într-un mod care le decuplează de gazde individuale: au nevoie să fie containerizate. Aplicațiile containerizate sunt mai flexibile și disponibile decât în modelele de publicare anterioare, în care aplicațiile earu instalate direct pe mașini specifice ca pachete profund integrate în gazdă. <b>Kubernetes automatizează distribuția și programarea aplicațiilor containerizate într-un cluster într-un mod mai eficient.</b> Kubernetes este o platformă open-source și este pregătită pentru producție.
+                </p>
+                <p>
+                <p>Un cluster Kubernetes este format din două tipuri de resurse:
+                    <ul>
+                        <li><b>Masterul</b> coordonează clusterul</li>
+                        <li><b>Nodurile</b> sunt muncitorii care rulează aplicațiile</li>
+                    </ul>
+                </p>
+            </div>
+
+            <div class="col-md-4">
+                <div class="content__box content__box_lined">
+                    <h3>Rezumat:</h3>
+                    <ul>
+                        <li>Cluster Kubernetes</li>
+                        <li>Minikube</li>
+                    </ul>
+                </div>
+                <div class="content__box content__box_fill">
+                    <p><i>
+                        Kubernetes este o platformă open-source, pregatită de producție care orecheastrează plasarea (programarea) și execuția containerelor de aplicații în și pe mai multe computere dintr-un cluster.
+                    </i></p>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-md-8">
+                <h2 style="color: #3771e3;">Diagrama Clusterului</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <p><img src="/docs/tutorials/kubernetes-basics/public/images/module_01_cluster.svg"></p>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-md-8">
+                <p><b>Masterul este responsabil de administrarea clusterului.</b> Masterul coordoneaza toate activitățile din clusterul tau, precum programarea aplicațiilor, menținerea stării dorite a aplicațiilor, scalarea aplicațiilor, și publicarea de actualizări.</p>
+                <p><b>Un nod este o mașină virtuală sau un computer fizic care servește ca mașină de lucru într-un cluster Kubernetes..</b> Fiecare nod are un Kubelet, care este un agent de administrare a nodului și de comunicare cu masterul Kubernetes. Nodul ar trebuie dealtfel să aibă unelte pentru manipularea operațiunilor containerului, precum Docker sau rkt. Un cluster Kubernetes care gestionează traficul de producție ar trebui să aiba minim trei noduri.</p>
+                
+            </div>
+            <div class="col-md-4">
+                <div class="content__box content__box_fill">
+                    <p><i>Resursele de tip Master gestionează clusterul și nodurile care sunt folosite pentru găzduirea și rularea aplicațiilor.</i></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <p>Când publici o aplicație în Kubernetes, îi spui masterului să pornească containerele aplicațîei. Masterul programarează containerele să ruleze pe nodurile clusterului. <b>Nodurile comunică cu masterul folosind <a href="/docs/concepts/overview/kubernetes-api/">API-ul Kubernetes</a></b>, pe care masterul îl expune. Utilizatorii finali pot de asemenea să folosească API-ul Kubernetes direct pentru a interacționa cu clusterul</p>
+                
+                <p>Un cluster Kubernetes poate fi implementat pe mașini fizice sau virtuale. Pentru a începe dezvoltarea pe Kubernetes, poți folosi Minikube. Minikube este o implementare simplă a Kubernetes, care creează o mașină virtuala pe mașina ta locală și publică un cluster simplu care conține un singur nod. Minikube este disponibil pentru Linux, macOS și sisteme Windows. Clientul de terminal Minikube oferă operații de bază de bootstrapping pentru lucrul cu clusterul tău, incluzând pornirea, oprirea, vizualizarea stării și ștergerea. Cu toate acesta, pentru acest tutorial, vei utiliza un terminal online furnizat cu Minikube preinstalat.</p>
+
+                <p>Acum că știi ce este Minikube, hai să mergem la tutorialul online si să pornim primul nostru cluster!</p>
+
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-lg btn-success" href="/docs/tutorials/kubernetes-basics/create-cluster/cluster-interactive/" role="button">Începe tutorialul interactiv <span class="btn__next">›</span></a>
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
